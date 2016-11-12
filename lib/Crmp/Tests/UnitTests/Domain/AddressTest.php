@@ -26,6 +26,17 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $address->isEnabled());
     }
 
+    public function testItCanBeEnabled()
+    {
+        $address = new Address(1, 'name', 'mail', false);
+
+        $this->assertFalse($address->isEnabled());
+
+        $address->enable();
+
+        $this->assertTrue($address->isEnabled());
+    }
+
     public function testItHasAName()
     {
         $address = $this->createEntity();
