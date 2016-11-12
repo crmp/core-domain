@@ -38,7 +38,7 @@ class DeleteAddressHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testItDisablesAndPersistViaRepository()
     {
-        $address = new Address(1, uniqid(), uniqid(), false);
+        $address = new Address(1, uniqid(), uniqid(), true);
         $disabledAddress = clone $address;
         $disabledAddress->disable();
 
@@ -47,8 +47,8 @@ class DeleteAddressHandlerTest extends \PHPUnit_Framework_TestCase
         $repoMock = $this->getMockBuilder(AddressRepositoryInterface::class)
                          ->setMethods(['persist'])
                          ->getMockForAbstractClass();
-        
-        $repoMock->expects($this->never())
+
+        $repoMock->expects($this->once())
                  ->method('persist')
                  ->with($disabledAddress);
 
