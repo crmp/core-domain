@@ -2,7 +2,6 @@
 
 namespace Crmp\Commands;
 
-use Crmp\Domain\Address;
 use Crmp\Domain\AddressRepositoryInterface;
 
 /**
@@ -10,7 +9,7 @@ use Crmp\Domain\AddressRepositoryInterface;
  *
  * @package Crmp\Commands
  */
-class SoftDeleteHandler
+class DeleteAddressHandler
 {
     /**
      * @var AddressRepositoryInterface
@@ -30,24 +29,19 @@ class SoftDeleteHandler
     /**
      * Handle all disable address commands.
      *
-     * @param SoftDeleteCommand $disableAddressCommand
+     * @param DeleteAddressCommand $disableAddressCommand
      */
-    public function handle(SoftDeleteCommand $disableAddressCommand)
+    public function handle(DeleteAddressCommand $disableAddressCommand)
     {
         $address = $disableAddressCommand->getEntity();
 
-        if ($address->isEnabled()) {
+        if (!$address->isEnabled()) {
             // already disabled => nothing to do
             return;
         }
 
-        $disabledAddress = new Address(
-            $address->getId(),
-            $address->getName(),
-            $address->getEmail(),
-            true
-        );
+        $address->disable();
 
-        $this->addressRepository->persist($disabledAddress);
+        $this->addressRepository->persist($address);
     }
 }

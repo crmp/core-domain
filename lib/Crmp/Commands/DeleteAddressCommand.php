@@ -9,7 +9,7 @@ use Crmp\Domain\SoftDeleteInterface;
  *
  * @package Crmp\Commands
  */
-class SoftDeleteCommand
+class DeleteAddressCommand
 {
     /**
      * Address to disable.
