@@ -9,14 +9,14 @@ namespace Crmp\Domain;
  *
  * @package Crmp\Domain
  */
-class Address
+class Address implements SoftDeleteInterface
 {
     /**
      * Mark an address deprecated.
      *
      * @var bool
      */
-    private $disabled;
+    private $enabled;
     /**
      * EMail
      *
@@ -39,17 +39,17 @@ class Address
     /**
      * Create new address.
      *
-     * @param int    $id       Identifier for this address.
-     * @param string $name     Name of the person or company.
-     * @param string $email    E-Mail address of the person or company.
-     * @param bool   $disabled Check this if the address should be disabled.
+     * @param int    $id      Identifier for this address.
+     * @param string $name    Name of the person or company.
+     * @param string $email   E-Mail address of the person or company.
+     * @param bool   $enabled Check this if the address should be disabled.
      */
-    public function __construct($id, $name, $email, $disabled)
+    public function __construct($id, $name, $email, $enabled)
     {
-        $this->id       = $id;
-        $this->name     = $name;
-        $this->email    = $email;
-        $this->disabled = $disabled;
+        $this->id      = $id;
+        $this->name    = $name;
+        $this->email   = $email;
+        $this->enabled = $enabled;
     }
 
     /**
@@ -81,8 +81,28 @@ class Address
      *
      * @return boolean
      */
-    public function isDisabled()
+    public function isEnabled()
     {
-        return (bool) $this->disabled;
+        return (bool) $this->enabled;
+    }
+
+    /**
+     * Disable the entity.
+     *
+     * @return mixed
+     */
+    public function disable()
+    {
+        $this->enabled = false;
+    }
+
+    /**
+     * Recover the entity.
+     *
+     * @return mixed
+     */
+    public function enable()
+    {
+        $this->enabled = true;
     }
 }

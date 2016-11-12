@@ -7,10 +7,24 @@ use Faker\Factory;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
-    protected $disabled;
     protected $email;
+
+    protected $enabled;
+
     protected $id;
+
     protected $name;
+
+    public function testItCanBeDisabled()
+    {
+        $address = $this->createEntity();
+
+        $this->assertEquals($this->enabled, $address->isEnabled());
+
+        $address->disable();
+
+        $this->assertEquals(false, $address->isEnabled());
+    }
 
     public function testItHasAName()
     {
@@ -29,17 +43,12 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->id, $this->createEntity()->getId());
     }
 
-    public function testItCanBeDisabled()
-    {
-        $this->assertEquals($this->disabled, $this->createEntity()->isDisabled());
-    }
-
     /**
      * @return Address
      */
     protected function createEntity()
     {
-        return new Address($this->id, $this->name, $this->email, $this->disabled);
+        return new Address($this->id, $this->name, $this->email, $this->enabled);
     }
 
     protected function setUp()
@@ -48,9 +57,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         $faker = Factory::create();
 
-        $this->id       = mt_rand(42, 1337);
-        $this->name     = $faker->firstName.' '.$faker->lastName;
-        $this->email    = $faker->email;
-        $this->disabled = true;
+        $this->id      = mt_rand(42, 1337);
+        $this->name    = $faker->firstName.' '.$faker->lastName;
+        $this->email   = $faker->email;
+        $this->enabled = true;
     }
 }
