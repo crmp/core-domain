@@ -2,6 +2,13 @@
 
 namespace Crmp\Domain;
 
+/**
+ * Address
+ *
+ * An address usually contains information about a person or a company.
+ *
+ * @package Crmp\Domain
+ */
 class Address
 {
     /**
@@ -29,6 +36,14 @@ class Address
      */
     private $name;
 
+    /**
+     * Create new address.
+     *
+     * @param int    $id       Identifier for this address.
+     * @param string $name     Name of the person or company.
+     * @param string $email    E-Mail address of the person or company.
+     * @param bool   $disabled Check this if the address should be disabled.
+     */
     public function __construct($id, $name, $email, $disabled)
     {
         $this->id       = $id;
@@ -68,6 +83,6 @@ class Address
      */
     public function isDisabled()
     {
-        return (bool)$this->disabled;
+        return (bool) $this->disabled;
     }
 }

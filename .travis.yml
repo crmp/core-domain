@@ -19,5 +19,10 @@ install:
   - composer install
 
 script:
+  # Assert composer.json is clean
   - composer validate --strict
+  # Run unit tests
   - opt/bin/phpunit -c etc/phpunit.xml --coverage-clover=var/coverage.xml --coverage-text
+  # CodeSniffer
+  - opt/bin/phpcs --config-set installed_paths opt/escapestudios/symfony2-coding-standard
+  - opt/bin/phpcs --standard=etc/phpcs.xml lib

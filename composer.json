@@ -11,6 +11,7 @@
     }
   },
   "require-dev": {
+    "escapestudios/symfony2-coding-standard": "~2",
     "fzaninotto/faker": "~1",
     "johnkary/phpunit-speedtrap": "~1",
     "phpunit/phpunit": "~5"

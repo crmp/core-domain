@@ -1,6 +1,6 @@
 <?php
 
-namespace Crmp\Tests\UnitTests\CoreDomain;
+namespace Crmp\Tests\UnitTests\Domain;
 
 use Crmp\Domain\Address;
 use Faker\Factory;
