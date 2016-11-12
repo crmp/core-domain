@@ -1,4 +1,7 @@
 language: php
+sudo: required
+dist: trusty
+group: edge
 
 # PHP Support see: http://php.net/supported-versions.php
 # HHVM Support see: https://docs.hhvm.com/hhvm/installation/introduction#lts-releases
