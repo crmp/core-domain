@@ -25,11 +25,15 @@ matrix:
 install:
   - composer install
 
+after_success:
+  # Send code coverage to codecov.io for further investigations.
+  - bash <(curl -s https://codecov.io/bash)
+
 script:
   # Assert composer.json is clean
   - composer validate --strict
   # Run unit tests
-  - opt/bin/phpunit -c etc/phpunit.xml --coverage-clover=var/coverage.xml --coverage-text
+  - opt/bin/phpunit -c etc/phpunit.xml --coverage-clover=var/phpunit/coverage.xml --coverage-text
   # CodeSniffer
   - opt/bin/phpcs --config-set installed_paths opt/escapestudios/symfony2-coding-standard
   - opt/bin/phpcs --standard=etc/phpcs.xml lib
