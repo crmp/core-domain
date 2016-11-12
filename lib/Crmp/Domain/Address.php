@@ -1,6 +1,6 @@
 <?php
 
-namespace Crmp\CoreDomain;
+namespace Crmp\Domain;
 
 class Address
 {

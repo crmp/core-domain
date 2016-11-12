@@ -2,7 +2,7 @@
 
 namespace Crmp\Tests\UnitTests\CoreDomain;
 
-use Crmp\CoreDomain\Address;
+use Crmp\Domain\Address;
 use Faker\Factory;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
