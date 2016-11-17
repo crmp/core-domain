@@ -3,9 +3,11 @@
 namespace Crmp\Tests\UnitTests\Domain;
 
 use Crmp\Domain\Address;
+use Crmp\Domain\AddressToAddressAssociation;
+use Crmp\Tests\UnitTests\AbstractDomainTest;
 use Faker\Factory;
 
-class AddressTest extends \PHPUnit_Framework_TestCase
+class AddressTest extends AbstractDomainTest
 {
     protected $email;
 
@@ -85,18 +87,19 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $address = new Address(123, 'name', 'email', true);
 
-        $someOther  = new Address(456, 'other', 'foo', false);
-        $andAnother = new Address(567, 'bar', 'baz', true);
+        $association = new AddressToAddressAssociation(
+            'foo',
+            $this->getAddressStub(),
+            $this->getAddressStub()
+        );
 
-        $address->addRelatedAddress($someOther);
-        $address->addRelatedAddress($andAnother);
+        $address->addAssociation($association);
 
         $this->assertEquals(
             [
-                $someOther,
-                $andAnother,
+                $association,
             ],
-            $address->getRelatedAddresses()
+            $address->getAssociations()
         );
     }
 

@@ -14,9 +14,9 @@ class Address implements SoftDeleteInterface
     /**
      * Related addresses.
      *
-     * @var Address[]
+     * @var AddressToAddressAssociation[]
      */
-    protected $relatedAddresses;
+    protected $addressToAddressAssociations;
     /**
      * Child addresses.
      *
@@ -71,13 +71,13 @@ class Address implements SoftDeleteInterface
     }
 
     /**
-     * Add a related address.
+     * Add an association.
      *
-     * @param Address $address
+     * @param AddressToAddressAssociation $association
      */
-    public function addRelatedAddress(Address $address)
+    public function addAssociation(AddressToAddressAssociation $association)
     {
-        $this->relatedAddresses[] = $address;
+        $this->addressToAddressAssociations[] = $association;
     }
 
     /**
@@ -109,6 +109,31 @@ class Address implements SoftDeleteInterface
     }
 
     /**
+     * Get external associations.
+     *
+     * Addresses can not only be split into a tree
+     * but also refer to some totally different addresses.
+     * The difference between a sub-address
+     * and a related address is,
+     * that the related does not have to be a child or parent of the current address.
+     * It can come from a total different place within the whole bulk of addresses.
+     *
+     * A company is not only about sector,
+     * which is covered by the sub addresses,
+     * but also about vendors, suppliers
+     * and other contractors.
+     * Those are not part of the company
+     * but have a relationship to each another.
+     * Those relationships are covered by the related addresses.
+     *
+     * @return AddressToAddressAssociation[]
+     */
+    public function getAssociations()
+    {
+        return $this->addressToAddressAssociations;
+    }
+
+    /**
      * @return string
      */
     public function getEmail()
@@ -130,31 +155,6 @@ class Address implements SoftDeleteInterface
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Get all related addresses.
-     *
-     * Addresses can not only be split into a tree
-     * but also refer to some totally different addresses.
-     * The difference between a sub-address
-     * and a related address is,
-     * that the related does not have to be a child or parent of the current address.
-     * It can come from a total different place within the whole bulk of addresses.
-     *
-     * A company is not only about sectory,
-     * which is covered by the sub addresses,
-     * but also about vendors, suppliers
-     * and other contractors.
-     * Those are not part of the company
-     * but have a relationship to each another.
-     * Those relationships are covered by the related addresses.
-     *
-     * @return Address[]
-     */
-    public function getRelatedAddresses()
-    {
-        return $this->relatedAddresses;
     }
 
     /**
