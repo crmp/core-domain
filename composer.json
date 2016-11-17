@@ -1,5 +1,5 @@
 {
-  "name": "crmp/core-domain",
+  "name": "crmp/domain-crm",
   "license": "MIT",
   "description": "The base entities as given in the CRMP application.",
   "config": {
