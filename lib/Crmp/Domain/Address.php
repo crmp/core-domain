@@ -24,6 +24,10 @@ class Address implements SoftDeleteInterface
      */
     protected $subAddresses;
     /**
+     * @var Address
+     */
+    protected $superordinateAddress;
+    /**
      * EMail
      *
      * @var string
@@ -51,17 +55,19 @@ class Address implements SoftDeleteInterface
     /**
      * Create new address.
      *
-     * @param int    $id      Identifier for this address.
-     * @param string $name    Name of the person or company.
-     * @param string $email   E-Mail address of the person or company.
-     * @param bool   $enabled Check this if the address should be disabled.
+     * @param int          $id           Identifier for this address.
+     * @param string       $name         Name of the person or company.
+     * @param string       $email        E-Mail address of the person or company.
+     * @param bool         $enabled      Check this if the address should be disabled.
+     * @param Address|null $superAddress The superordinate address.
      */
-    public function __construct($id, $name, $email, $enabled)
+    public function __construct($id, $name, $email, $enabled, $superAddress = null)
     {
-        $this->id      = $id;
-        $this->name    = $name;
-        $this->email   = $email;
-        $this->enabled = $enabled;
+        $this->id                   = $id;
+        $this->name                 = $name;
+        $this->email                = $email;
+        $this->enabled              = $enabled;
+        $this->superordinateAddress = $superAddress;
     }
 
     /**
@@ -171,6 +177,20 @@ class Address implements SoftDeleteInterface
     public function getSubAddresses()
     {
         return $this->subAddresses;
+    }
+
+    /**
+     * Get parent address.
+     *
+     * As addresses can have a sub address it shall also be possible to move back up the tree.
+     * So when a customer is found in the system then it needs to know which one is his "parent".
+     * This could be the sector, factory or shop he works in.
+     *
+     * @return Address|null The parent address or null if it has none.
+     */
+    public function getSuperordinateAddress()
+    {
+        return $this->superordinateAddress;
     }
 
     /**

@@ -44,6 +44,33 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->name, $address->getName());
     }
 
+    public function testItHasASubAddress()
+    {
+        $address = new Address(123, 'name', 'email', true);
+
+        $someOther  = new Address(456, 'other', 'foo', false);
+        $andAnother = new Address(567, 'bar', 'baz', true);
+
+        $address->addSubAddress($someOther);
+        $address->addSubAddress($andAnother);
+
+        $this->assertEquals(
+            [
+                $someOther,
+                $andAnother,
+            ],
+            $address->getSubAddresses()
+        );
+    }
+
+    public function testItHasASuperAddress()
+    {
+        $super = new Address(1337, 'time', 'money', false);
+        $adr   = new Address(42, 'who', 'what', true, $super);
+
+        $this->assertEquals($super, $adr->getSuperordinateAddress());
+    }
+
     public function testItHasAnEmail()
     {
         $this->assertEquals($this->email, $this->createEntity()->getEmail());
@@ -73,23 +100,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testItHasASubAddress()
+    public function testTheSuperAddressIsNullForRootNodes()
     {
-        $address = new Address(123, 'name', 'email', true);
+        $address = new Address(0x815, 'superduper', 'some@e.mail', true);
 
-        $someOther  = new Address(456, 'other', 'foo', false);
-        $andAnother = new Address(567, 'bar', 'baz', true);
-
-        $address->addSubAddress($someOther);
-        $address->addSubAddress($andAnother);
-
-        $this->assertEquals(
-            [
-                $someOther,
-                $andAnother,
-            ],
-            $address->getSubAddresses()
-        );
+        $this->assertNull($address->getSuperordinateAddress());
     }
 
     /**
