@@ -18,6 +18,12 @@ class Address implements SoftDeleteInterface
      */
     protected $relatedAddresses;
     /**
+     * Child addresses.
+     *
+     * @var Address[]
+     */
+    protected $subAddresses;
+    /**
      * EMail
      *
      * @var string
@@ -66,6 +72,14 @@ class Address implements SoftDeleteInterface
     public function addRelatedAddress(Address $address)
     {
         $this->relatedAddresses[] = $address;
+    }
+
+    /**
+     * @param Address $address
+     */
+    public function addSubAddress(Address $address)
+    {
+        $this->subAddresses[] = $address;
     }
 
     /**
@@ -122,11 +136,41 @@ class Address implements SoftDeleteInterface
      * that the related does not have to be a child or parent of the current address.
      * It can come from a total different place within the whole bulk of addresses.
      *
+     * A company is not only about sectory,
+     * which is covered by the sub addresses,
+     * but also about vendors, suppliers
+     * and other contractors.
+     * Those are not part of the company
+     * but have a relationship to each another.
+     * Those relationships are covered by the related addresses.
+     *
      * @return Address[]
      */
     public function getRelatedAddresses()
     {
         return $this->relatedAddresses;
+    }
+
+    /**
+     * Receive child addresses.
+     *
+     * This will return all addresses that are summed up by this address.
+     * An address can include several other addresses.
+     * By doing this it wants to follow the principles that are given in every company.
+     *
+     * A company has a name (first address),
+     * a CEO (simple sub address)
+     * and some various sectors like marketing, production etc (each a sub address).
+     * The "marketing" for instance is also an address with the name marketing
+     * again containing plenty other addresses for each employee contact.
+     *
+     * Together with the related addresses the complexity of a whole company can be covered.
+     *
+     * @return Address[]
+     */
+    public function getSubAddresses()
+    {
+        return $this->subAddresses;
     }
 
     /**

@@ -73,6 +73,25 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testItHasASubAddress()
+    {
+        $address = new Address(123, 'name', 'email', true);
+
+        $someOther  = new Address(456, 'other', 'foo', false);
+        $andAnother = new Address(567, 'bar', 'baz', true);
+
+        $address->addSubAddress($someOther);
+        $address->addSubAddress($andAnother);
+
+        $this->assertEquals(
+            [
+                $someOther,
+                $andAnother,
+            ],
+            $address->getSubAddresses()
+        );
+    }
+
     /**
      * @return Address
      */
