@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Crmp\Tests\UnitTests\Commands;
+namespace Crmp\Tests\UnitTests\Commands\Address;
 
 
 use Crmp\Commands\Address\SetAssociationCommand;
