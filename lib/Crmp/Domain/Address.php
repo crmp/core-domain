@@ -12,17 +12,23 @@ namespace Crmp\Domain;
 class Address implements SoftDeleteInterface
 {
     /**
-     * Mark an address deprecated.
+     * Related addresses.
      *
-     * @var bool
+     * @var Address[]
      */
-    private $enabled;
+    protected $relatedAddresses;
     /**
      * EMail
      *
      * @var string
      */
     private $email;
+    /**
+     * Mark an address deprecated.
+     *
+     * @var bool
+     */
+    private $enabled;
     /**
      * Identifier
      *
@@ -53,6 +59,36 @@ class Address implements SoftDeleteInterface
     }
 
     /**
+     * Add a related address.
+     *
+     * @param Address $address
+     */
+    public function addRelatedAddress(Address $address)
+    {
+        $this->relatedAddresses[] = $address;
+    }
+
+    /**
+     * Disable the entity.
+     *
+     * @return mixed
+     */
+    public function disable()
+    {
+        $this->enabled = false;
+    }
+
+    /**
+     * Recover the entity.
+     *
+     * @return mixed
+     */
+    public function enable()
+    {
+        $this->enabled = true;
+    }
+
+    /**
      * @return string
      */
     public function getEmail()
@@ -77,6 +113,23 @@ class Address implements SoftDeleteInterface
     }
 
     /**
+     * Get all related addresses.
+     *
+     * Addresses can not only be split into a tree
+     * but also refer to some totally different addresses.
+     * The difference between a sub-address
+     * and a related address is,
+     * that the related does not have to be a child or parent of the current address.
+     * It can come from a total different place within the whole bulk of addresses.
+     *
+     * @return Address[]
+     */
+    public function getRelatedAddresses()
+    {
+        return $this->relatedAddresses;
+    }
+
+    /**
      * Check if disabled.
      *
      * @return boolean
@@ -84,25 +137,5 @@ class Address implements SoftDeleteInterface
     public function isEnabled()
     {
         return (bool) $this->enabled;
-    }
-
-    /**
-     * Disable the entity.
-     *
-     * @return mixed
-     */
-    public function disable()
-    {
-        $this->enabled = false;
-    }
-
-    /**
-     * Recover the entity.
-     *
-     * @return mixed
-     */
-    public function enable()
-    {
-        $this->enabled = true;
     }
 }

@@ -54,6 +54,25 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->id, $this->createEntity()->getId());
     }
 
+    public function testItHasRelatedAddresses()
+    {
+        $address = new Address(123, 'name', 'email', true);
+
+        $someOther  = new Address(456, 'other', 'foo', false);
+        $andAnother = new Address(567, 'bar', 'baz', true);
+
+        $address->addRelatedAddress($someOther);
+        $address->addRelatedAddress($andAnother);
+
+        $this->assertEquals(
+            [
+                $someOther,
+                $andAnother,
+            ],
+            $address->getRelatedAddresses()
+        );
+    }
+
     /**
      * @return Address
      */
