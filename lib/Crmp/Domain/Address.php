@@ -2,7 +2,7 @@
 
 namespace Crmp\Domain;
 
-use Crmp\Domain\Associations\AddressToAddress;
+use Crmp\Domain\Traits\Associative;
 
 /**
  * Address
@@ -13,6 +13,8 @@ use Crmp\Domain\Associations\AddressToAddress;
  */
 class Address implements SoftDeleteInterface
 {
+	use Associative;
+
     /**
      * Related addresses.
      *
@@ -72,23 +74,12 @@ class Address implements SoftDeleteInterface
         $this->superordinateAddress = $superAddress;
     }
 
-    /**
-     * Add an association.
-     *
-     * @param AddressToAddress $association
-     */
-	public function addAssociation( AddressToAddress $association )
-    {
-        $this->addressToAddressAssociations[] = $association;
-    }
-
-    /**
-     * @param Address $address
-     */
-    public function addSubAddress(Address $address)
-    {
-        $this->subAddresses[] = $address;
-    }
+	/**
+	 * @param Address $address
+	 */
+	public function addSubAddress( Address $address ) {
+		$this->subAddresses[] = $address;
+	}
 
     /**
      * Disable the entity.
@@ -108,31 +99,6 @@ class Address implements SoftDeleteInterface
     public function enable()
     {
         $this->enabled = true;
-    }
-
-    /**
-     * Get external associations.
-     *
-     * Addresses can not only be split into a tree
-     * but also refer to some totally different addresses.
-     * The difference between a sub-address
-     * and a related address is,
-     * that the related does not have to be a child or parent of the current address.
-     * It can come from a total different place within the whole bulk of addresses.
-     *
-     * A company is not only about sector,
-     * which is covered by the sub addresses,
-     * but also about vendors, suppliers
-     * and other contractors.
-     * Those are not part of the company
-     * but have a relationship to each another.
-     * Those relationships are covered by the related addresses.
-     *
-     * @return AddressToAddress[]
-     */
-    public function getAssociations()
-    {
-        return $this->addressToAddressAssociations;
     }
 
     /**

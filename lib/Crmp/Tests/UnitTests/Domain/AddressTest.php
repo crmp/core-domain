@@ -4,6 +4,7 @@ namespace Crmp\Tests\UnitTests\Domain;
 
 use Crmp\Domain\Address;
 use Crmp\Domain\AddressToAddressAssociation;
+use Crmp\Domain\Associations\AddressToAddress;
 use Crmp\Tests\UnitTests\AbstractDomainTest;
 use Faker\Factory;
 
@@ -16,6 +17,24 @@ class AddressTest extends AbstractDomainTest
     protected $id;
 
     protected $name;
+
+	/**
+	 * @return Address
+	 */
+	protected function createEntity() {
+		return new Address( $this->id, $this->name, $this->email, $this->enabled );
+	}
+
+	protected function setUp() {
+		parent::setUp();
+
+		$faker = Factory::create();
+
+		$this->id      = mt_rand( 42, 1337 );
+		$this->name    = $faker->firstName . ' ' . $faker->lastName;
+		$this->email   = $faker->email;
+		$this->enabled = true;
+	}
 
     public function testItCanBeDisabled()
     {
@@ -87,7 +106,7 @@ class AddressTest extends AbstractDomainTest
     {
         $address = new Address(123, 'name', 'email', true);
 
-        $association = new AddressToAddressAssociation(
+	    $association = new AddressToAddress(
             'foo',
             $this->getAddressStub(),
             $this->getAddressStub()
@@ -108,25 +127,5 @@ class AddressTest extends AbstractDomainTest
         $address = new Address(0x815, 'superduper', 'some@e.mail', true);
 
         $this->assertNull($address->getSuperordinateAddress());
-    }
-
-    /**
-     * @return Address
-     */
-    protected function createEntity()
-    {
-        return new Address($this->id, $this->name, $this->email, $this->enabled);
-    }
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $faker = Factory::create();
-
-        $this->id      = mt_rand(42, 1337);
-        $this->name    = $faker->firstName.' '.$faker->lastName;
-        $this->email   = $faker->email;
-        $this->enabled = true;
     }
 }
