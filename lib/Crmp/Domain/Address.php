@@ -2,6 +2,8 @@
 
 namespace Crmp\Domain;
 
+use Crmp\Domain\Associations\AddressToAddress;
+
 /**
  * Address
  *
@@ -17,16 +19,6 @@ class Address implements SoftDeleteInterface
      * @var AddressToAddressAssociation[]
      */
     protected $addressToAddressAssociations;
-    /**
-     * Child addresses.
-     *
-     * @var Address[]
-     */
-    protected $subAddresses;
-    /**
-     * @var Address
-     */
-    protected $superordinateAddress;
     /**
      * EMail
      *
@@ -51,6 +43,16 @@ class Address implements SoftDeleteInterface
      * @var string
      */
     private $name;
+	/**
+	 * Child addresses.
+	 *
+	 * @var Address[]
+	 */
+	protected $subAddresses;
+	/**
+	 * @var Address
+	 */
+	protected $superordinateAddress;
 
     /**
      * Create new address.
@@ -73,9 +75,9 @@ class Address implements SoftDeleteInterface
     /**
      * Add an association.
      *
-     * @param AddressToAddressAssociation $association
+     * @param AddressToAddress $association
      */
-    public function addAssociation(AddressToAddressAssociation $association)
+	public function addAssociation( AddressToAddress $association )
     {
         $this->addressToAddressAssociations[] = $association;
     }
@@ -126,7 +128,7 @@ class Address implements SoftDeleteInterface
      * but have a relationship to each another.
      * Those relationships are covered by the related addresses.
      *
-     * @return AddressToAddressAssociation[]
+     * @return AddressToAddress[]
      */
     public function getAssociations()
     {

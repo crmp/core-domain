@@ -1,17 +1,18 @@
 <?php
 
 
-namespace Crmp\Tests\UnitTests\Domain;
+namespace Crmp\Tests\UnitTests\Domain\Associations;
 
 
 use Crmp\Domain\AddressToAddressAssociation;
+use Crmp\Domain\Associations\AddressToAddress;
 use Crmp\Tests\UnitTests\AbstractDomainTest;
 
-class AddressToAddressAssociationTest extends AbstractDomainTest
+class AddressToAddressTest extends AbstractDomainTest
 {
     public function testDefaultTypeIsBothDirections()
     {
-        $association = new AddressToAddressAssociation(
+	    $association = new AddressToAddress(
             uniqid(),
             $this->getAddressStub(),
             $this->getAddressStub()
@@ -25,20 +26,20 @@ class AddressToAddressAssociationTest extends AbstractDomainTest
         $left  = $this->getAddressStub();
         $right = $this->getAddressStub();
 
-        $assoc = new AddressToAddressAssociation(
+	    $assoc = new AddressToAddress(
             uniqid(),
             $left,
             $right
         );
 
-        $this->assertEquals($left, $assoc->getLeftAddress());
-        $this->assertEquals($right, $assoc->getRightAddress());
+	    $this->assertEquals( $left, $assoc->getLeft() );
+	    $this->assertEquals( $right, $assoc->getRight() );
     }
 
     public function testItHasATitle()
     {
         $title = uniqid();
-        $assoc = new AddressToAddressAssociation(
+	    $assoc = new AddressToAddress(
             $title,
             $this->getAddressStub(),
             $this->getAddressStub()
@@ -49,31 +50,31 @@ class AddressToAddressAssociationTest extends AbstractDomainTest
 
     public function testTheTypeShowsTheDirectionOfInquiries()
     {
-        $assoc = new AddressToAddressAssociation(
+	    $assoc = new AddressToAddress(
             uniqid(),
             $this->getAddressStub(),
             $this->getAddressStub(),
-            AddressToAddressAssociation::LEFT_TO_RIGHT
+		    AddressToAddress::LEFT_TO_RIGHT
         );
 
-        $this->assertEquals(AddressToAddressAssociation::LEFT_TO_RIGHT, $assoc->getType());
+	    $this->assertEquals( AddressToAddress::LEFT_TO_RIGHT, $assoc->getType() );
 
-        $assoc = new AddressToAddressAssociation(
+	    $assoc = new AddressToAddress(
             uniqid(),
             $this->getAddressStub(),
             $this->getAddressStub(),
-            AddressToAddressAssociation::RIGHT_TO_LEFT
+		    AddressToAddress::RIGHT_TO_LEFT
         );
 
-        $this->assertEquals(AddressToAddressAssociation::RIGHT_TO_LEFT, $assoc->getType());
+	    $this->assertEquals( AddressToAddress::RIGHT_TO_LEFT, $assoc->getType() );
 
-        $assoc = new AddressToAddressAssociation(
+	    $assoc = new AddressToAddress(
             uniqid(),
             $this->getAddressStub(),
             $this->getAddressStub(),
-            AddressToAddressAssociation::NO_DIRECTION
+		    AddressToAddress::NO_DIRECTION
         );
 
-        $this->assertEquals(AddressToAddressAssociation::NO_DIRECTION, $assoc->getType());
+	    $this->assertEquals( AddressToAddress::NO_DIRECTION, $assoc->getType() );
     }
 }
