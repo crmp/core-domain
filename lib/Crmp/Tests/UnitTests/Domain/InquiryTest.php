@@ -15,31 +15,7 @@ class InquiryTest extends \PHPUnit_Framework_TestCase {
 		return new Inquiry( 'subject', 'description', [], null );
 	}
 
-	public function testAddressesCanBeSet() {
-		$addresses = [ $this->createAddressStub(), $this->createAddressStub() ];
-		$inquiry   = new Inquiry( 'subject', 'content', $addresses );
-
-		$this->assertEquals( $addresses, $inquiry->getAddresses() );
-	}
-
-	public function testItCanAppendAddresses() {
-		$inquiry = new Inquiry( 'subject', 'content' );
-
-		$address = $this->createAddressStub();
-
-		$inquiry->appendAddress( $address );
-
-		$this->assertEquals( [ $address ], $inquiry->getAddresses() );
-	}
-
-	public function testItCanHaveAParent() {
-		$superordinate = $this->createInquiryStub();
-		$inquiry       = new Inquiry( 'title', 'Content', [], $superordinate );
-
-		$this->assertEquals( $superordinate, $inquiry->getSuperordinate() );
-	}
-
-	public function testItHasAContent() {
+	public function testHasAContent() {
 		$content = uniqid();
 
 		$inquiry = new Inquiry( 'subject', $content );
@@ -47,18 +23,10 @@ class InquiryTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( $content, $inquiry->getContent() );
 	}
 
-	public function testItHasATitle() {
+	public function testHasATitle() {
 		$title   = uniqid();
 		$inquiry = new Inquiry( $title, 'content' );
 
 		$this->assertEquals( $title, $inquiry->getTitle() );
-	}
-
-	public function testItHasChildren() {
-		$inquiry = $this->createInquiryStub();
-
-		$inquiry->append( $child = $this->createInquiryStub() );
-
-		$this->assertEquals( [ $child ], $inquiry->getChildren() );
 	}
 }

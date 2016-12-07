@@ -10,15 +10,6 @@ use Crmp\Domain\Traits\Tree;
  * @package Crmp\Domain
  */
 class Inquiry {
-
-	use Tree;
-
-	/**
-	 * Add related addresses.
-	 *
-	 * @var Address[]
-	 */
-	protected $addresses;
 	/**
 	 * Description of the inquiry.
 	 *
@@ -35,29 +26,14 @@ class Inquiry {
 	/**
 	 * Create new inquiry.
 	 *
-	 * @param string    $title     Subject.
-	 * @param string    $content   Description.
-	 * @param Address[] $addresses Related addresses.
-	 * @param static    $superordinate
+	 * @param int    $id      Identifier.
+	 * @param string $title   Subject.
+	 * @param string $content Description.
 	 */
-	public function __construct( $title, $content, $addresses = [], $superordinate = null ) {
-		$this->title     = $title;
-		$this->content   = $content;
-		$this->addresses = $addresses;
-		$this->parent    = $superordinate;
-	}
-
-	public function appendAddress( Address $address ) {
-		$this->addresses[] = $address;
-	}
-
-	/**
-	 * Get all addresses.
-	 *
-	 * @return Address[]
-	 */
-	public function getAddresses() {
-		return $this->addresses;
+	public function __construct( $id, $title, $content ) {
+		$this->id      = $id;
+		$this->title   = $title;
+		$this->content = $content;
 	}
 
 	/**
