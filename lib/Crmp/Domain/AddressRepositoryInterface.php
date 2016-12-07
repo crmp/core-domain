@@ -29,6 +29,15 @@ interface AddressRepositoryInterface
      */
     public function findAllSimilar(Address $address);
 
+	/**
+	 * Fetch addresses that can access an inquiry.
+	 *
+	 * @param Inquiry $inquiry
+	 *
+	 * @return Address[]
+	 */
+	public function findByInquiry( Inquiry $inquiry );
+
     /**
      * Search for one similar address.
      *
