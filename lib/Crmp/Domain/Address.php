@@ -3,6 +3,7 @@
 namespace Crmp\Domain;
 
 use Crmp\Domain\Traits\Associative;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Address
@@ -22,29 +23,24 @@ class Address implements SoftDeleteInterface
      */
     protected $addressToAddressAssociations;
     /**
-     * EMail
-     *
-     * @var string
-     */
-    private $email;
-    /**
      * Mark an address deprecated.
      *
      * @var bool
      */
-    private $enabled;
+    protected $enabled;
     /**
      * Identifier
      *
      * @var int
      */
-    private $id;
+    protected $uuid;
+
     /**
      * Name
      *
      * @var string
      */
-    private $name;
+    protected $name;
 	/**
 	 * Child addresses.
 	 *
@@ -59,17 +55,13 @@ class Address implements SoftDeleteInterface
     /**
      * Create new address.
      *
-     * @param int          $id           Identifier for this address.
      * @param string       $name         Name of the person or company.
-     * @param string       $email        E-Mail address of the person or company.
-     * @param bool         $enabled      Check this if the address should be disabled.
+     * @param bool         $enabled      Check this if the address should be disabled (default: true/enabled).
      * @param Address|null $superAddress The superordinate address.
      */
-    public function __construct($id, $name, $email, $enabled, $superAddress = null)
+    public function __construct($name, $enabled = true, $superAddress = null)
     {
-        $this->id                   = $id;
         $this->name                 = $name;
-        $this->email                = $email;
         $this->enabled              = $enabled;
         $this->superordinateAddress = $superAddress;
     }
@@ -79,6 +71,15 @@ class Address implements SoftDeleteInterface
 	 */
 	public function addSubAddress( Address $address ) {
 		$this->subAddresses[] = $address;
+	}
+
+    public function getUuid()
+    {
+        if ($this->uuid) {
+            return $this->uuid;
+        }
+
+        return $this->uuid = Uuid::uuid4();
 	}
 
     /**
