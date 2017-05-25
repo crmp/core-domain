@@ -14,7 +14,7 @@ use Ramsey\Uuid\Uuid;
  */
 class Address implements SoftDeleteInterface
 {
-	use Associative;
+    use Associative;
 
     /**
      * Related addresses.
@@ -22,18 +22,20 @@ class Address implements SoftDeleteInterface
      * @var AddressToAddressAssociation[]
      */
     protected $addressToAddressAssociations;
+
     /**
      * Mark an address deprecated.
      *
      * @var bool
      */
     protected $enabled;
+
     /**
      * Identifier
      *
-     * @var int
+     * @var string
      */
-    protected $uuid;
+    protected $uuid = '';
 
     /**
      * Name
@@ -41,16 +43,18 @@ class Address implements SoftDeleteInterface
      * @var string
      */
     protected $name;
-	/**
-	 * Child addresses.
-	 *
-	 * @var Address[]
-	 */
-	protected $subAddresses;
-	/**
-	 * @var Address
-	 */
-	protected $superordinateAddress;
+
+    /**
+     * Child addresses.
+     *
+     * @var Address[]
+     */
+    protected $subAddresses;
+
+    /**
+     * @var Address
+     */
+    protected $superordinateAddress;
 
     /**
      * Create new address.
@@ -59,28 +63,37 @@ class Address implements SoftDeleteInterface
      * @param bool         $enabled      Check this if the address should be disabled (default: true/enabled).
      * @param Address|null $superAddress The superordinate address.
      */
-    public function __construct($name, $enabled = true, $superAddress = null)
+    public function __construct($name, $enabled = true, Address $superAddress = null)
     {
         $this->name                 = $name;
         $this->enabled              = $enabled;
         $this->superordinateAddress = $superAddress;
     }
 
-	/**
-	 * @param Address $address
-	 */
-	public function addSubAddress( Address $address ) {
-		$this->subAddresses[] = $address;
-	}
+    /**
+     * @param Address $address
+     */
+    public function addSubAddress(Address $address)
+    {
+        $this->subAddresses[] = $address;
+    }
 
+    /**
+     * @return string
+     */
     public function getUuid()
     {
         if ($this->uuid) {
             return $this->uuid;
         }
 
-        return $this->uuid = Uuid::uuid4();
-	}
+        return $this->uuid = Uuid::uuid4()->toString();
+    }
+
+    protected function getEnabled()
+    {
+        return $this->enabled;
+    }
 
     /**
      * Disable the entity.
@@ -100,22 +113,6 @@ class Address implements SoftDeleteInterface
     public function enable()
     {
         $this->enabled = true;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -169,6 +166,6 @@ class Address implements SoftDeleteInterface
      */
     public function isEnabled()
     {
-        return (bool) $this->enabled;
+        return (bool)$this->enabled;
     }
 }
