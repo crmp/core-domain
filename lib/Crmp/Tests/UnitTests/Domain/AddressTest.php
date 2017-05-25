@@ -113,11 +113,4 @@ class AddressTest extends AbstractDomainTest
             $address->getAssociations()
         );
     }
-
-    public function testTheSuperAddressIsItselfForRootNodes()
-    {
-        $address = new Address('superduper', true);
-
-        $this->assertEquals($address, $address->getSuperordinateAddress());
-    }
 }
