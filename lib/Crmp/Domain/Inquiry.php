@@ -26,12 +26,10 @@ class Inquiry {
 	/**
 	 * Create new inquiry.
 	 *
-	 * @param int    $id      Identifier.
 	 * @param string $title   Subject.
 	 * @param string $content Description.
 	 */
-	public function __construct( $id, $title, $content ) {
-		$this->id      = $id;
+	public function __construct( $title, $content ) {
 		$this->title   = $title;
 		$this->content = $content;
 	}

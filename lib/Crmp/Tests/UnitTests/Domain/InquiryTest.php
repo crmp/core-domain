@@ -16,7 +16,7 @@ class InquiryTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testHasAContent() {
-		$content = uniqid();
+		$content = uniqid('content', true);
 
 		$inquiry = new Inquiry( 'subject', $content );
 
@@ -24,7 +24,7 @@ class InquiryTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testHasATitle() {
-		$title   = uniqid();
+		$title   = uniqid('title', true);
 		$inquiry = new Inquiry( $title, 'content' );
 
 		$this->assertEquals( $title, $inquiry->getTitle() );

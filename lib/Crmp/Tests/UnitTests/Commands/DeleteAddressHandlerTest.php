@@ -19,7 +19,7 @@ class DeleteAddressHandlerTest extends \PHPUnit_Framework_TestCase
 {
     public function testAlreadyDisabledAddressesWillBeIgnored()
     {
-        $address = new Address(1, uniqid(), uniqid(), false);
+        $address = new Address(uniqid('name', true), false);
 
         $command = new DeleteAddressCommand($address);
 
@@ -38,7 +38,7 @@ class DeleteAddressHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testItDisablesAndPersistViaRepository()
     {
-        $address = new Address(1, uniqid(), uniqid(), true);
+        $address = new Address(uniqid('name', true), true);
         $disabledAddress = clone $address;
         $disabledAddress->disable();
 

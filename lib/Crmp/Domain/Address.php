@@ -65,8 +65,14 @@ class Address implements SoftDeleteInterface
      */
     public function __construct($name, $enabled = true, Address $superAddress = null)
     {
-        $this->name                 = $name;
-        $this->enabled              = $enabled;
+        $this->name    = $name;
+        $this->enabled = $enabled;
+
+        if (null === $superAddress) {
+            // Trees reference the node itself on root level.
+            $superAddress = $this;
+        }
+
         $this->superordinateAddress = $superAddress;
     }
 
@@ -88,11 +94,6 @@ class Address implements SoftDeleteInterface
         }
 
         return $this->uuid = Uuid::uuid4()->toString();
-    }
-
-    protected function getEnabled()
-    {
-        return $this->enabled;
     }
 
     /**
@@ -157,6 +158,11 @@ class Address implements SoftDeleteInterface
     public function getSuperordinateAddress()
     {
         return $this->superordinateAddress;
+    }
+
+    protected function getEnabled()
+    {
+        return $this->enabled;
     }
 
     /**

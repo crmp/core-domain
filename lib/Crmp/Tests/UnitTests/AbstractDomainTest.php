@@ -9,9 +9,7 @@ abstract class AbstractDomainTest extends \PHPUnit_Framework_TestCase
     protected function getAddressStub($superAddress = null)
     {
         return new Address(
-            mt_rand(42, 1337),
-            uniqid(),
-            uniqid('email').'@'.uniqid().'.foo',
+            uniqid('name', true),
             (bool) mt_rand(0, 1),
             $superAddress
         );

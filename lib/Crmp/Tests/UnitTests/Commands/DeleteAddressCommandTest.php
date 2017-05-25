@@ -16,7 +16,7 @@ class DeleteAddressCommandTest extends \PHPUnit_Framework_TestCase
 {
     public function testItContainsAnAddress()
     {
-        $address = new Address(1, uniqid(), uniqid(), true);
+        $address = new Address(uniqid('name', true), true);
         $command = new DeleteAddressCommand($address);
 
         $this->assertEquals($address, $command->getEntity());

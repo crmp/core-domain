@@ -22,7 +22,7 @@ class AddressTest extends AbstractDomainTest
 	 * @return Address
 	 */
 	protected function createEntity() {
-		return new Address( $this->id, $this->name, $this->email, $this->enabled );
+		return new Address( $this->name, $this->enabled );
 	}
 
 	protected function setUp() {
@@ -30,10 +30,7 @@ class AddressTest extends AbstractDomainTest
 
 		$faker = Factory::create();
 
-		$this->id      = mt_rand( 42, 1337 );
 		$this->name    = $faker->firstName . ' ' . $faker->lastName;
-		$this->email   = $faker->email;
-		$this->enabled = true;
 	}
 
     public function testItCanBeDisabled()
@@ -49,7 +46,7 @@ class AddressTest extends AbstractDomainTest
 
     public function testItCanBeEnabled()
     {
-        $address = new Address(1, 'name', 'mail', false);
+        $address = new Address('name', false);
 
         $this->assertFalse($address->isEnabled());
 
@@ -67,10 +64,10 @@ class AddressTest extends AbstractDomainTest
 
     public function testItHasASubAddress()
     {
-        $address = new Address(123, 'name', 'email', true);
+        $address = new Address('name', true);
 
-        $someOther  = new Address(456, 'other', 'foo', false);
-        $andAnother = new Address(567, 'bar', 'baz', true);
+        $someOther  = new Address('other', false);
+        $andAnother = new Address('bar', true);
 
         $address->addSubAddress($someOther);
         $address->addSubAddress($andAnother);
@@ -86,25 +83,20 @@ class AddressTest extends AbstractDomainTest
 
     public function testItHasASuperAddress()
     {
-        $super = new Address(1337, 'time', 'money', false);
-        $adr   = new Address(42, 'who', 'what', true, $super);
+        $super = new Address('doctor', false);
+        $adr   = new Address('who', true, $super);
 
         $this->assertEquals($super, $adr->getSuperordinateAddress());
     }
 
-    public function testItHasAnEmail()
+    public function testItHasAnUuid()
     {
-        $this->assertEquals($this->email, $this->createEntity()->getEmail());
-    }
-
-    public function testItHasAnId()
-    {
-        $this->assertEquals($this->id, $this->createEntity()->getId());
+        $this->assertNotNull($this->createEntity()->getUuid());
     }
 
     public function testItHasRelatedAddresses()
     {
-        $address = new Address(123, 'name', 'email', true);
+        $address = new Address('name', true);
 
 	    $association = new AddressToAddress(
             'foo',
@@ -122,10 +114,10 @@ class AddressTest extends AbstractDomainTest
         );
     }
 
-    public function testTheSuperAddressIsNullForRootNodes()
+    public function testTheSuperAddressIsItselfForRootNodes()
     {
-        $address = new Address(0x815, 'superduper', 'some@e.mail', true);
+        $address = new Address('superduper', true);
 
-        $this->assertNull($address->getSuperordinateAddress());
+        $this->assertEquals($address, $address->getSuperordinateAddress());
     }
 }

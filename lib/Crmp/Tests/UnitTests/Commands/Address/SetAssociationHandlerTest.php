@@ -16,7 +16,7 @@ class SetAssociationHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testItPersistsAnAssociationObject()
     {
-        $title           = uniqid();
+        $title           = uniqid('title', true);
         $leftAddress     = $this->getAddressStub();
         $rightAddress    = $this->getAddressStub();
         $associationType = 42;
