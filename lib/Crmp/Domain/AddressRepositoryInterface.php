@@ -14,43 +14,11 @@ interface AddressRepositoryInterface
     /**
      * Find an address by identifier.
      *
-     * @param int $id
+     * @param string $uuid
      *
      * @return Address|null Returns the address or null if not found.
      */
-    public function find($id);
-
-    /**
-     * Search for similar addresses.
-     *
-     * @param Address $address
-     *
-     * @return Address[]
-     */
-    public function findAllSimilar(Address $address);
-
-	/**
-	 * Fetch addresses that can access an inquiry.
-	 *
-	 * @param Inquiry $inquiry
-	 *
-	 * @return Address[]
-	 */
-	public function findByInquiry( Inquiry $inquiry );
-
-    /**
-     * Search for one similar address.
-     *
-     * This uses the ::findAllSimilar method
-     * and return the first match.
-     *
-     * @see ::findAllSimilar()
-     *
-     * @param Address $address
-     *
-     * @return mixed
-     */
-    public function findSimilar(Address $address);
+    public function find($uuid);
 
     /**
      * Store or update an address.
